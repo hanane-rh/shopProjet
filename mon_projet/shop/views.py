@@ -219,8 +219,7 @@ class OrderViewSet(viewsets.ViewSet):
             # payment_successful = process_card_payment(card_details)
             # if not payment_successful:
             #     return Response({'error': 'Payment failed'}, status=400)
-        
-        # Create order
+  
         order = Order.objects.create(
             user=request.user,
             order_number=order_number,
@@ -235,7 +234,6 @@ class OrderViewSet(viewsets.ViewSet):
             status='pending'
         )
         
-        # Create order items and update stock
         for cart_item in cart.items.all():
             OrderItem.objects.create(
                 order=order,
