@@ -129,8 +129,13 @@ class OrderItem(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     
     def __str__(self):
-        return f"{self.quantity} x {self.product.name}"
+        # Correction ici aussi - gérer le cas où product.name est None
+        product_name = self.product.name if self.product and self.product.name else "Unknown"
+        return f"{self.quantity or 0} x {product_name}"
     
     @property
     def subtotal(self):
+        # Gérer le cas où quantity ou price est None
+        if self.quantity is None or self.price is None:
+            return 0
         return self.quantity * self.price
