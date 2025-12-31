@@ -1,0 +1,468 @@
+/* ==========================
+   CART DROPDOWN – VINTAGE AUTHENTIQUE
+   Style parchemin ancien / popup rétro
+   ========================== */
+
+/* Wrapper du dropdown */
+.cart-dropdown-wrapper {
+  position: relative;
+}
+
+/* Bouton panier avec badge */
+.cart-toggle-btn {
+  position: relative;
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.cart-toggle-btn:hover {
+  color: #B8956A;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: linear-gradient(145deg, #8B4513 0%, #654321 100%);
+  color: #F4E4C1;
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-family: 'Georgia', serif;
+  padding: 0.2rem 0.5rem;
+  border-radius: 50%;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #B8956A;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Dropdown carte style parchemin */
+.cart-dropdown {
+  position: absolute;
+  top: calc(100% + 1rem);
+  right: 0;
+  width: 380px;
+  max-height: 600px;
+  background: linear-gradient(145deg, #2C1F15 0%, #1F1510 100%);
+  border: 5px solid transparent;
+  border-image: linear-gradient(
+    135deg,
+    #B8956A 0%,
+    #F4E4C1 25%,
+    #B8956A 50%,
+    #8B7355 75%,
+    #B8956A 100%
+  ) 1;
+  box-shadow: 
+    0 0 0 2px #3E2A1F,
+    inset 0 0 30px rgba(0, 0, 0, 0.6),
+    0 15px 40px rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  animation: cartSlideIn 0.3s ease-out;
+}
+
+@keyframes cartSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ornements d'angles dorés */
+.cart-dropdown::before,
+.cart-dropdown::after {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border: 3px solid #B8956A;
+  z-index: 2;
+}
+
+.cart-dropdown::before {
+  top: -3px;
+  left: -3px;
+  border-right: none;
+  border-bottom: none;
+  background: linear-gradient(135deg, rgba(184, 149, 106, 0.3) 0%, transparent 50%);
+}
+
+.cart-dropdown::after {
+  bottom: -3px;
+  right: -3px;
+  border-left: none;
+  border-top: none;
+  background: linear-gradient(315deg, rgba(184, 149, 106, 0.3) 0%, transparent 50%);
+}
+
+/* Ornements supplémentaires */
+.cart-dropdown-inner::before,
+.cart-dropdown-inner::after {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border: 3px solid #B8956A;
+  z-index: 2;
+}
+
+.cart-dropdown-inner::before {
+  top: -3px;
+  right: -3px;
+  border-left: none;
+  border-bottom: none;
+  background: linear-gradient(45deg, rgba(184, 149, 106, 0.3) 0%, transparent 50%);
+}
+
+.cart-dropdown-inner::after {
+  bottom: -3px;
+  left: -3px;
+  border-right: none;
+  border-top: none;
+  background: linear-gradient(225deg, rgba(184, 149, 106, 0.3) 0%, transparent 50%);
+}
+
+.cart-dropdown-inner {
+  position: relative;
+  padding: 1.5rem;
+}
+
+/* Header */
+.cart-dropdown-header {
+  margin-bottom: 1rem;
+}
+
+.cart-dropdown-title {
+  font-family: 'Garamond', 'Georgia', 'Times New Roman', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #F4E4C1;
+  text-align: center;
+  margin: 0 0 1rem 0;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Séparateur décoratif */
+.cart-divider {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #B8956A 20%,
+    #F4E4C1 50%,
+    #B8956A 80%,
+    transparent 100%
+  );
+  position: relative;
+  margin: 1rem 0;
+}
+
+.cart-divider::before {
+  content: '⬥';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #F4E4C1;
+  background: #1F1510;
+  padding: 0 0.8rem;
+  font-size: 0.8rem;
+}
+
+/* Contenu scrollable */
+.cart-dropdown-content {
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Scrollbar personnalisée vintage */
+.cart-dropdown-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.cart-dropdown-content::-webkit-scrollbar-track {
+  background: rgba(26, 20, 16, 0.6);
+  border-radius: 4px;
+}
+
+.cart-dropdown-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #B8956A 0%, #8B7355 100%);
+  border-radius: 4px;
+  border: 1px solid #6B4E3D;
+}
+
+.cart-dropdown-content::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #C8A57A 0%, #9B8365 100%);
+}
+
+/* Panier vide */
+.cart-empty {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #9B8470;
+  font-family: 'Georgia', serif;
+  font-style: italic;
+}
+
+.cart-empty p {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.cart-empty-icon {
+  font-size: 3rem;
+  opacity: 0.5;
+}
+
+/* Liste des items */
+.cart-items-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+  background: rgba(26, 20, 16, 0.4);
+  border: 1px solid #6B4E3D;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.cart-item:hover {
+  background: rgba(26, 20, 16, 0.6);
+  border-color: #B8956A;
+}
+
+.cart-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.cart-item-name {
+  font-family: 'Georgia', serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #F4E4C1;
+  display: -webkit-box;
+  
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cart-item-details {
+  font-family: 'Georgia', serif;
+  font-size: 0.85rem;
+  color: #B8956A;
+  font-style: italic;
+}
+
+/* Bouton supprimer */
+.cart-item-remove {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #6B4E3D 0%, #4A3528 100%);
+  border: 2px solid #8B7355;
+  border-radius: 50%;
+  color: #F4E4C1;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.cart-item-remove:hover {
+  background: linear-gradient(145deg, #8B4513 0%, #654321 100%);
+  border-color: #B8956A;
+  transform: rotate(90deg);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.cart-item-remove:active {
+  transform: rotate(90deg) scale(0.95);
+}
+
+/* Footer */
+.cart-dropdown-footer {
+  margin-top: 1rem;
+}
+
+/* Total */
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0.5rem;
+  margin: 1rem 0;
+}
+
+.cart-total-label {
+  font-family: 'Georgia', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #B8956A;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.cart-total-price {
+  font-family: 'Garamond', 'Georgia', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #F4E4C1;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.cart-total-price::before {
+  content: '$ ';
+  font-size: 1.1rem;
+  color: #B8956A;
+}
+
+/* Bouton voir le panier */
+.cart-view-btn {
+  display: block;
+  width: 80%;
+  padding: 0.9rem 1rem;
+  margin-top: 1rem;
+  font-size: 0.5rem;
+  font-weight: 400;
+  font-family: 'Georgia', serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  background: linear-gradient(145deg, #8B4513 0%, #654321 100%);
+  color: #F4E4C1;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 5px 0 #3E2A1F,
+    0 7px 15px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+  clip-path: polygon(
+    8px 0, calc(100% - 8px) 0,
+    100% 8px, 100% calc(100% - 8px),
+    calc(100% - 8px) 100%, 8px 100%,
+    0 calc(100% - 8px), 0 8px
+  );
+}
+
+.cart-view-btn::before {
+  content: '⬥';
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #B8956A;
+  font-size: 0.9rem;
+}
+
+.cart-view-btn::after {
+  content: '⬥';
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #B8956A;
+  font-size: 0.9rem;
+}
+
+.cart-view-btn:hover {
+  background: linear-gradient(145deg, #A0522D 0%, #8B4513 100%);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 7px 0 #3E2A1F,
+    0 10px 20px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.cart-view-btn:active {
+  transform: translateY(1px);
+  box-shadow: 
+    0 4px 0 #3E2A1F,
+    0 5px 12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cart-dropdown {
+    width: 340px;
+    right: -50px;
+  }
+
+  .cart-dropdown-inner {
+    padding: 1.2rem;
+  }
+
+  .cart-dropdown-title {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cart-dropdown {
+    width: 320px;
+    right: -80px;
+  }
+
+  .cart-dropdown-inner {
+    padding: 1rem;
+  }
+
+  .cart-dropdown-title {
+    font-size: 1.2rem;
+  }
+
+  .cart-item {
+    padding: 0.8rem;
+  }
+
+  .cart-item-name {
+    font-size: 0.85rem;
+  }
+
+  .cart-view-btn {
+    padding: 0.8rem 1.2rem;
+    font-size: 0.75rem;
+  }
+
+  .cart-view-btn::before,
+  .cart-view-btn::after {
+    display: none;
+  }
+}

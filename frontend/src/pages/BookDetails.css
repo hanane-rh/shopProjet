@@ -1,0 +1,788 @@
+/* ==========================
+   BOOK DETAILS PAGE – VINTAGE AUTHENTIQUE
+   Style bibliothèque ancienne / registre rétro
+   ========================== */
+
+.book-details-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1A1410 0%, #2C1810 50%, #1A1410 100%);
+  padding: 3rem 2rem;
+  position: relative;
+}
+
+/* Effet de texture papier en arrière-plan */
+.book-details-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(184, 149, 106, 0.03) 2px,
+      rgba(184, 149, 106, 0.03) 4px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Tous les éléments au-dessus de la texture */
+.book-details-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Lien retour */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Georgia', serif;
+  font-size: 1rem;
+  color: #B8956A;
+  text-decoration: none;
+  margin-bottom: 2rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid #6B4E3D;
+  background: rgba(26, 20, 16, 0.4);
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+.back-link:hover {
+  color: #F4E4C1;
+  border-color: #B8956A;
+  background: rgba(184, 149, 106, 0.1);
+  transform: translateX(-5px);
+}
+
+/* Container principal des détails */
+.book-details {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+  background: linear-gradient(145deg, #2C1F15 0%, #1F1510 100%);
+  border: 6px solid transparent;
+  border-image: linear-gradient(
+    135deg,
+    #B8956A 0%,
+    #F4E4C1 25%,
+    #B8956A 50%,
+    #8B7355 75%,
+    #B8956A 100%
+  ) 1;
+  box-shadow: 
+    0 0 0 3px #3E2A1F,
+    inset 0 0 40px rgba(0, 0, 0, 0.6),
+    0 20px 60px rgba(0, 0, 0, 0.7);
+  padding: 3rem;
+  position: relative;
+}
+
+/* Ornements d'angles dorés */
+.book-details::before {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 4px solid #B8956A;
+  top: -4px;
+  left: -4px;
+  border-right: none;
+  border-bottom: none;
+  background: linear-gradient(135deg, rgba(184, 149, 106, 0.3) 0%, transparent 50%);
+  z-index: 2;
+}
+
+.book-details::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 4px solid #B8956A;
+  bottom: -4px;
+  right: -4px;
+  border-left: none;
+  border-top: none;
+  background: linear-gradient(315deg, rgba(184, 149, 106, 0.3) 0%, transparent 50%);
+  z-index: 2;
+}
+
+/* Section image */
+.book-image {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 400px;
+}
+
+.book-image img {
+  width: 100%;
+  height: auto;
+  background: rgba(26, 20, 16, 0.6);
+  border: 6px solid #6B4E3D;
+  box-shadow: 
+    inset 0 0 0 3px #B8956A,
+    inset 0 6px 15px rgba(0, 0, 0, 0.5),
+    0 10px 30px rgba(0, 0, 0, 0.7),
+    0 20px 60px rgba(0, 0, 0, 0.5);
+  filter: sepia(10%) contrast(110%) brightness(105%);
+  transition: all 0.3s ease;
+}
+
+.book-image img:hover {
+  filter: sepia(5%) contrast(115%) brightness(110%);
+  box-shadow: 
+    inset 0 0 0 3px #F4E4C1,
+    inset 0 6px 15px rgba(0, 0, 0, 0.5),
+    0 12px 35px rgba(0, 0, 0, 0.8),
+    0 25px 70px rgba(0, 0, 0, 0.6);
+  transform: scale(1.02);
+}
+
+/* Section informations */
+.book-info {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.book-info h2 {
+  font-family: 'Garamond', 'Georgia', 'Times New Roman', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #F4E4C1;
+  margin: 0 0 1rem 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+  line-height: 1.2;
+}
+
+.book-info h2::after {
+  content: '';
+  display: block;
+  width: 150px;
+  height: 3px;
+  margin: 1rem 0;
+  background: linear-gradient(
+    90deg,
+    #B8956A 0%,
+    #F4E4C1 50%,
+    #B8956A 100%
+  );
+}
+
+.book-info p {
+  font-family: 'Georgia', serif;
+  font-size: 1.1rem;
+  color: #F4E4C1;
+  line-height: 1.8;
+  margin: 0;
+}
+
+.book-info p strong {
+  color: #B8956A;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 1rem;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+/* Prix en évidence */
+.book-info .price-info {
+  font-size: 1.8rem;
+  color: #F4E4C1;
+  font-weight: 700;
+  margin: 1rem 0;
+  padding: 1rem;
+  background: rgba(26, 20, 16, 0.6);
+  border: 3px solid #6B4E3D;
+  text-align: center;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.book-info .price-info strong {
+  color: #B8956A;
+  font-size: 1.2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* Stock */
+.book-info .stock-info {
+  font-style: italic;
+  color: #9B8470;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+/* Bouton Ajouter au panier */
+.book-add-to-cart {
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 100%;
+  padding: 1.2rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: 'Georgia', serif;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  border: none;
+  background: linear-gradient(145deg, #8B4513 0%, #654321 100%);
+  color: #F4E4C1;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 6px 0 #3E2A1F,
+    0 8px 20px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+  position: relative;
+  clip-path: polygon(
+    10px 0, calc(100% - 10px) 0,
+    100% 10px, 100% calc(100% - 10px),
+    calc(100% - 10px) 100%, 10px 100%,
+    0 calc(100% - 10px), 0 10px
+  );
+}
+
+.book-add-to-cart::before {
+  content: '⬥';
+  position: absolute;
+  left: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #B8956A;
+  font-size: 1.2rem;
+}
+
+.book-add-to-cart::after {
+  content: '⬥';
+  position: absolute;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #B8956A;
+  font-size: 1.2rem;
+}
+
+.book-add-to-cart:hover {
+  background: linear-gradient(145deg, #A0522D 0%, #8B4513 100%);
+  box-shadow: 
+    0 6px 0 #3E2A1F,
+    0 10px 25px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.book-add-to-cart:active {
+  transform: translateY(2px);
+  box-shadow: 
+    0 4px 0 #3E2A1F,
+    0 5px 15px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.book-add-to-cart:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Messages d'état */
+.loading-message,
+.error-message,
+.not-found-message {
+  font-family: 'Georgia', serif;
+  font-size: 1.2rem;
+  color: #F4E4C1;
+  text-align: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(145deg, #2C1F15 0%, #1F1510 100%);
+  border: 3px solid #6B4E3D;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  max-width: 600px;
+  margin: 3rem auto;
+}
+
+.error-message {
+  border-color: #8B4513;
+}
+
+/* Loading spinner */
+.loading-container {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #6B4E3D;
+  border-top-color: #B8956A;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-family: 'Georgia', serif;
+  font-size: 1.1rem;
+  color: #B8956A;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+  .book-details {
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    gap: 2rem;
+  }
+
+  .book-image {
+    max-width: 350px;
+  }
+
+  .book-info h2 {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .book-info h2::after {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .book-details-container {
+    padding: 2rem 1rem;
+  }
+
+  .book-details {
+    padding: 1.5rem;
+    border-width: 4px;
+  }
+
+  .book-details::before,
+  .book-details::after {
+    width: 30px;
+    height: 30px;
+    border-width: 3px;
+  }
+
+  .book-image {
+    max-width: 100%;
+  }
+
+  .book-image img {
+    border-width: 4px;
+  }
+
+  .book-info h2 {
+    font-size: 1.6rem;
+  }
+
+  .book-info p {
+    font-size: 1rem;
+  }
+
+  .book-info .price-info {
+    font-size: 1.5rem;
+  }
+
+  .book-add-to-cart {
+    padding: 1rem 1.5rem;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+  }
+
+  .book-add-to-cart::before,
+  .book-add-to-cart::after {
+    font-size: 1rem;
+    left: 15px;
+  }
+
+  .book-add-to-cart::after {
+    right: 15px;
+    left: auto;
+  }
+}
+
+/* Effet de texture papier en arrière-plan */
+.book-details::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(184, 149, 106, 0.03) 2px,
+      rgba(184, 149, 106, 0.03) 4px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Container principal du livre */
+.book-details > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Titre du livre */
+.book-details h2 {
+  font-family: 'Garamond', 'Georgia', 'Times New Roman', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #F4E4C1;
+  text-align: center;
+  margin: 0 0 1rem 0;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+  max-width: 800px;
+}
+
+/* Séparateur décoratif sous le titre */
+.book-details h2::after {
+  content: '';
+  display: block;
+  width: 200px;
+  height: 3px;
+  margin: 1rem auto;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #B8956A 20%,
+    #F4E4C1 50%,
+    #B8956A 80%,
+    transparent 100%
+  );
+  position: relative;
+}
+
+.book-details h2::before {
+  content: '❦';
+  display: block;
+  text-align: center;
+  font-size: 2rem;
+  color: #B8956A;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 20px rgba(184, 149, 106, 0.5);
+}
+
+/* Image du livre avec cadre vintage */
+.book-details img {
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+  background: rgba(26, 20, 16, 0.6);
+  border: 6px solid #6B4E3D;
+  box-shadow: 
+    inset 0 0 0 3px #B8956A,
+    inset 0 6px 15px rgba(0, 0, 0, 0.5),
+    0 10px 30px rgba(0, 0, 0, 0.7),
+    0 20px 60px rgba(0, 0, 0, 0.5);
+  margin: 2rem 0;
+  filter: sepia(10%) contrast(110%) brightness(105%);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.book-details img:hover {
+  filter: sepia(5%) contrast(115%) brightness(110%);
+  box-shadow: 
+    inset 0 0 0 3px #F4E4C1,
+    inset 0 6px 15px rgba(0, 0, 0, 0.5),
+    0 12px 35px rgba(0, 0, 0, 0.8),
+    0 25px 70px rgba(0, 0, 0, 0.6);
+  transform: scale(1.02);
+}
+
+/* Carte d'informations */
+.book-details .info {
+  background: linear-gradient(145deg, #2C1F15 0%, #1F1510 100%);
+  border: 6px solid transparent;
+  border-image: linear-gradient(
+    135deg,
+    #B8956A 0%,
+    #F4E4C1 25%,
+    #B8956A 50%,
+    #8B7355 75%,
+    #B8956A 100%
+  ) 1;
+  box-shadow: 
+    0 0 0 3px #3E2A1F,
+    inset 0 0 40px rgba(0, 0, 0, 0.6),
+    0 15px 40px rgba(0, 0, 0, 0.7);
+  padding: 2rem 2.5rem;
+  max-width: 600px;
+  width: 100%;
+  margin: 2rem 0;
+  position: relative;
+}
+
+/* Ornements d'angles pour la carte info */
+.book-details .info::before {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 4px solid #B8956A;
+  top: -4px;
+  left: -4px;
+  border-right: none;
+  border-bottom: none;
+  background: linear-gradient(135deg, rgba(184, 149, 106, 0.3) 0%, transparent 50%);
+}
+
+.book-details .info::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 4px solid #B8956A;
+  bottom: -4px;
+  right: -4px;
+  border-left: none;
+  border-top: none;
+  background: linear-gradient(315deg, rgba(184, 149, 106, 0.3) 0%, transparent 50%);
+}
+
+/* Paragraphes d'information */
+.book-details .info p {
+  font-family: 'Georgia', serif;
+  font-size: 1.1rem;
+  color: #F4E4C1;
+  line-height: 1.8;
+  margin: 1rem 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.book-details .info p strong {
+  color: #B8956A;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+}
+
+/* Prix en évidence */
+.book-details .info .price {
+  font-size: 1.5rem;
+  color: #F4E4C1;
+  font-weight: 700;
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.book-details .info .price strong {
+  color: #B8956A;
+  font-size: 1.2rem;
+}
+
+/* Stock */
+.book-details .info .stock {
+  font-style: italic;
+  color: #9B8470;
+  text-align: center;
+}
+
+/* Bouton Ajouter au panier - Style sceau vintage */
+.book-details .add-to-cart {
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 400px;
+  padding: 1.2rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: 'Georgia', serif;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  border: none;
+  background: linear-gradient(145deg, #8B4513 0%, #654321 100%);
+  color: #F4E4C1;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 6px 0 #3E2A1F,
+    0 8px 20px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+  position: relative;
+  clip-path: polygon(
+    10px 0, calc(100% - 10px) 0,
+    100% 10px, 100% calc(100% - 10px),
+    calc(100% - 10px) 100%, 10px 100%,
+    0 calc(100% - 10px), 0 10px
+  );
+}
+
+.book-details .add-to-cart::before {
+  content: '⬥';
+  position: absolute;
+  left: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #B8956A;
+  font-size: 1.2rem;
+}
+
+.book-details .add-to-cart::after {
+  content: '⬥';
+  position: absolute;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #B8956A;
+  font-size: 1.2rem;
+}
+
+.book-details .add-to-cart:hover {
+  background: linear-gradient(145deg, #A0522D 0%, #8B4513 100%);
+  box-shadow: 
+    0 6px 0 #3E2A1F,
+    0 10px 25px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.book-details .add-to-cart:active {
+  transform: translateY(2px);
+  box-shadow: 
+    0 4px 0 #3E2A1F,
+    0 5px 15px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.book-details .add-to-cart:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Messages d'erreur et de chargement */
+.book-details .error,
+.book-details > p {
+  font-family: 'Georgia', serif;
+  font-size: 1.2rem;
+  color: #F4E4C1;
+  text-align: center;
+  padding: 2rem;
+  background: rgba(44, 31, 21, 0.8);
+  border: 3px solid #B8956A;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  max-width: 500px;
+  margin: 3rem auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .book-details {
+    padding: 2rem 1.5rem;
+  }
+
+  .book-details h2 {
+    font-size: 2rem;
+    letter-spacing: 1px;
+  }
+
+  .book-details img {
+    max-width: 300px;
+  }
+
+  .book-details .info {
+    padding: 1.5rem 1.8rem;
+  }
+
+  .book-details .info p {
+    font-size: 1rem;
+  }
+
+  .book-details .info .price {
+    font-size: 1.3rem;
+  }
+
+  .book-details .add-to-cart {
+    padding: 1rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .book-details {
+    padding: 1.5rem 1rem;
+  }
+
+  .book-details h2 {
+    font-size: 1.6rem;
+  }
+
+  .book-details h2::before {
+    font-size: 1.5rem;
+  }
+
+  .book-details img {
+    max-width: 250px;
+    border-width: 4px;
+  }
+
+  .book-details .info {
+    padding: 1.2rem 1.5rem;
+    border-width: 4px;
+  }
+
+  .book-details .info::before,
+  .book-details .info::after {
+    width: 30px;
+    height: 30px;
+    border-width: 3px;
+  }
+
+  .book-details .info p {
+    font-size: 0.95rem;
+  }
+
+  .book-details .info .price {
+    font-size: 1.2rem;
+  }
+
+  .book-details .add-to-cart {
+    padding: 0.9rem 1.2rem;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+  }
+
+  .book-details .add-to-cart::before,
+  .book-details .add-to-cart::after {
+    font-size: 1rem;
+    left: 15px;
+  }
+
+  .book-details .add-to-cart::after {
+    right: 15px;
+    left: auto;
+  }
+}

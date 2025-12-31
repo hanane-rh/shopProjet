@@ -1,13 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from django.shortcuts import get_object_or_404
-from .models import Category, Product, Cart, CartItem, Like
+import random
+import string
+
+from .models import Category, Product, Cart, CartItem, Like, Order, OrderItem
 from .serializers import (
     CategorySerializer, ProductSerializer, 
-    CartSerializer, CartItemSerializer, LikeSerializer
+    CartSerializer, CartItemSerializer, LikeSerializer,
+    OrderSerializer, CreateOrderSerializer
 )
 
 
@@ -46,6 +49,31 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
         featured_products = self.queryset.filter(is_featured=True)[:10]
         serializer = self.get_serializer(featured_products, many=True)
         return Response(serializer.data)
+    
+    @action(detail=False, methods=['get'])
+    def by_category(self, request):
+        """Get products by category slug"""
+        category_slug = request.query_params.get('slug')
+        
+        if not category_slug:
+            return Response({
+                'error': 'Category slug is required'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            category = Category.objects.get(slug=category_slug)
+        except Category.DoesNotExist:
+            return Response({
+                'error': 'Category not found'
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        products = self.queryset.filter(category=category)
+        serializer = self.get_serializer(products, many=True)
+        
+        return Response({
+            'category': CategorySerializer(category).data,
+            'products': serializer.data
+        })
 
 
 class CartViewSet(viewsets.ViewSet):
@@ -154,14 +182,7 @@ class LikeViewSet(viewsets.ViewSet):
             return Response({'liked': False, 'message': 'Product unliked'})
         
         return Response({'liked': True, 'message': 'Product liked'})
-    
-    # Ajoutez ces imports en haut du fichier avec les autres imports
-import random
-import string
-from .models import Order, OrderItem
-from .serializers import OrderSerializer, CreateOrderSerializer
 
-# Ajoutez ce ViewSet à la fin du fichier
 
 class OrderViewSet(viewsets.ViewSet):
     """
@@ -279,36 +300,3 @@ class OrderViewSet(viewsets.ViewSet):
             'message': 'Order cancelled successfully',
             'order': serializer.data
         })
-
-
-# MODIFIER ProductViewSet - Ajouter cette action après la méthode featured()
-@action(detail=False, methods=['get'])
-def by_category(self, request):
-    """Get products by category slug"""
-    category_slug = request.query_params.get('slug')
-    
-    if not category_slug:
-        return Response({
-            'error': 'Category slug is required'
-        }, status=status.HTTP_400_BAD_REQUEST)
-    
-    try:
-        category = Category.objects.get(slug=category_slug)
-    except Category.DoesNotExist:
-        return Response({
-            'error': 'Category not found'
-        }, status=status.HTTP_404_NOT_FOUND)
-    
-    products = self.queryset.filter(category=category)
-    
-    # Pagination
-    page = self.paginate_queryset(products)
-    if page is not None:
-        serializer = self.get_serializer(page, many=True)
-        return self.get_paginated_response(serializer.data)
-    
-    serializer = self.get_serializer(products, many=True)
-    return Response({
-        'category': CategorySerializer(category).data,
-        'products': serializer.data
-    })
