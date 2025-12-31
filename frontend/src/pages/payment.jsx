@@ -1,23 +1,21 @@
 import { useContext, useState } from "react";
 import { CartContext } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
+import api from "../utils/axiosConfig";
 import './Payment.css';
 
 export default function Payment() {
   const { cartItems, getTotalPrice, clearCart } = useContext(CartContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [paymentMethod, setPaymentMethod] = useState('card'); // 'card' or 'delivery'
+  const [paymentMethod, setPaymentMethod] = useState('card');
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    // Card payment fields
     cardNumber: '',
     cardName: '',
     expiryDate: '',
     cvv: '',
-    
-    // Delivery info (required for both payment methods)
     fullName: '',
     address: '',
     city: '',
@@ -37,14 +35,12 @@ export default function Payment() {
   };
 
   const validateForm = () => {
-    // Validate delivery info (required for both methods)
     if (!formData.fullName || !formData.address || !formData.city || 
         !formData.postalCode || !formData.phone || !formData.email) {
       setError('Please fill in all delivery information');
       return false;
     }
 
-    // Validate card info only if paying by card
     if (paymentMethod === 'card') {
       if (!formData.cardNumber || formData.cardNumber.length < 16) {
         setError('Invalid card number');
@@ -79,45 +75,59 @@ export default function Payment() {
     setError(null);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/shop/orders/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          items: cartItems.map(item => ({
-            product_id: item.id,
-            quantity: item.quantity,
-          })),
-          total: getTotalPrice(),
-          payment_method: paymentMethod,
-          delivery_info: {
-            full_name: formData.fullName,
-            address: formData.address,
-            city: formData.city,
-            postal_code: formData.postalCode,
-            country: formData.country,
-            phone: formData.phone,
-            email: formData.email
-          },
-          ...(paymentMethod === 'card' && {
-            card_info: {
-              card_number: formData.cardNumber,
-              card_name: formData.cardName,
-              expiry_date: formData.expiryDate,
-              cvv: formData.cvv
-            }
-          })
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.detail || "Payment failed");
+      console.log("=== DÉBUT DU PAIEMENT ===");
+      console.log("1. Cart Items:", cartItems);
+      
+      // ÉTAPE 1 : Synchroniser le panier avec le backend
+      console.log("2. Syncing cart with backend...");
+      
+      // Vider le panier backend
+      try {
+        await api.delete("shop/cart/clear/");
+        console.log("   ✓ Cart cleared");
+      } catch (err) {
+        console.log("   ℹ No cart to clear or error:", err.message);
       }
 
-      // Payment / order successful
+      // Ajouter tous les items du panier frontend au backend
+      for (const item of cartItems) {
+        console.log(`   Adding item: ${item.name} (ID: ${item.id}) x${item.quantity}`);
+        await api.post("shop/cart/add_item/", {
+          product_id: item.id,
+          quantity: item.quantity
+        });
+      }
+
+      console.log("   ✓ Cart synced successfully!");
+
+      // ÉTAPE 2 : Préparer les données de commande
+      const orderData = {
+        payment_method: paymentMethod,
+        full_name: formData.fullName,
+        phone: formData.phone,
+        address: formData.address,
+        city: formData.city,
+        postal_code: formData.postalCode,
+      };
+
+      // Ajouter les infos carte si paiement par carte
+      if (paymentMethod === 'card') {
+        orderData.card_number = formData.cardNumber;
+        orderData.card_expiry = formData.expiryDate;  // ← CHANGÉ: expiry_date → card_expiry
+        orderData.card_cvv = formData.cvv;            // ← CHANGÉ: cvv → card_cvv
+        // Note: card_name n'est pas utilisé par le backend
+      }
+
+      console.log("3. Order Data:", orderData);
+
+      // ÉTAPE 3 : Créer la commande
+      console.log("4. Creating order...");
+      const response = await api.post("shop/orders/create_order/", orderData);
+
+      console.log("5. ✓ Order created:", response.data);
+      console.log("=== PAIEMENT RÉUSSI ===");
+
+      // ÉTAPE 4 : Succès !
       const message = paymentMethod === 'delivery' 
         ? 'Order created successfully! You will pay on delivery.'
         : 'Order created successfully! Payment processed.';
@@ -125,8 +135,53 @@ export default function Payment() {
       alert(message);
       clearCart();
       navigate("/success");
+      
     } catch (err) {
-      setError(err.message);
+      console.error("=== ERREUR DE PAIEMENT ===");
+      console.error("Error object:", err);
+      
+      if (err.response) {
+        console.error("Status:", err.response.status);
+        console.error("Response data:", err.response.data);
+        console.error("Headers:", err.response.headers);
+        
+        const errorData = err.response.data;
+        let errorMsg = "Payment failed";
+        
+        // Afficher les erreurs de validation détaillées
+        if (typeof errorData === 'object' && errorData !== null) {
+          const errorMessages = [];
+          
+          for (const [field, messages] of Object.entries(errorData)) {
+            if (Array.isArray(messages)) {
+              errorMessages.push(`${field}: ${messages.join(', ')}`);
+            } else if (typeof messages === 'string') {
+              errorMessages.push(`${field}: ${messages}`);
+            } else if (typeof messages === 'object') {
+              errorMessages.push(`${field}: ${JSON.stringify(messages)}`);
+            }
+          }
+          
+          if (errorMessages.length > 0) {
+            errorMsg = errorMessages.join('\n');
+          }
+        } else if (typeof errorData === 'string') {
+          errorMsg = errorData;
+        }
+        
+        console.error("Parsed error message:", errorMsg);
+        setError(errorMsg);
+        
+      } else if (err.request) {
+        console.error("No response received");
+        console.error("Request:", err.request);
+        setError("Cannot reach the server. Is your backend running on http://127.0.0.1:8000?");
+      } else {
+        console.error("Error setting up request:", err.message);
+        setError(err.message || "Payment failed");
+      }
+      
+      console.error("=========================");
     } finally {
       setLoading(false);
     }
@@ -153,7 +208,6 @@ export default function Payment() {
           <h2 className="payment-title">Secure Payment</h2>
           <div className="payment-divider"></div>
 
-          {/* Order Summary */}
           <div className="order-summary">
             <h3>Order Summary</h3>
             {cartItems.map((item, index) => (
@@ -168,7 +222,6 @@ export default function Payment() {
             </p>
           </div>
 
-          {/* Payment Method Selection */}
           <div className="payment-method-section">
             <h3 className="form-section-title">Payment Method</h3>
             <div className="payment-methods">
@@ -202,10 +255,13 @@ export default function Payment() {
             </div>
           </div>
 
-          {error && <div className="payment-error">{error}</div>}
+          {error && (
+            <div className="payment-error" style={{whiteSpace: 'pre-line'}}>
+              {error}
+            </div>
+          )}
 
           <form className="payment-form" onSubmit={handlePayment}>
-            {/* Card Information - Only show if paying by card */}
             {paymentMethod === 'card' && (
               <div className="form-section">
                 <h3 className="form-section-title">Card Information</h3>
@@ -217,7 +273,7 @@ export default function Payment() {
                     name="cardNumber"
                     value={formData.cardNumber}
                     onChange={handleChange}
-                    placeholder="1234 5678 9012 3456"
+                    placeholder="1234567890123456"
                     maxLength="16"
                     className="payment-input"
                     required
@@ -269,7 +325,6 @@ export default function Payment() {
               </div>
             )}
 
-            {/* Delivery Information - Required for both methods */}
             <div className="form-section">
               <h3 className="form-section-title">Delivery Information</h3>
               
@@ -379,7 +434,6 @@ export default function Payment() {
               </div>
             </div>
 
-            {/* Submit Button */}
             <button 
               type="submit" 
               className="payment-button"
@@ -392,7 +446,6 @@ export default function Payment() {
               }
             </button>
 
-            {/* Security Note */}
             <div className="security-note">
               {paymentMethod === 'card' 
                 ? '🔒 Your payment information is secure and encrypted'
