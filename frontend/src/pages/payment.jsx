@@ -8,10 +8,11 @@ export default function Payment() {
   const { cartItems, getTotalPrice, clearCart } = useContext(CartContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState('card');
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     cardNumber: '',
     cardName: '',
     expiryDate: '',
@@ -23,7 +24,9 @@ export default function Payment() {
     country: '',
     phone: '',
     email: ''
-  });
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -113,9 +116,8 @@ export default function Payment() {
       // Ajouter les infos carte si paiement par carte
       if (paymentMethod === 'card') {
         orderData.card_number = formData.cardNumber;
-        orderData.card_expiry = formData.expiryDate;  // ← CHANGÉ: expiry_date → card_expiry
-        orderData.card_cvv = formData.cvv;            // ← CHANGÉ: cvv → card_cvv
-        // Note: card_name n'est pas utilisé par le backend
+        orderData.card_expiry = formData.expiryDate;
+        orderData.card_cvv = formData.cvv;
       }
 
       console.log("3. Order Data:", orderData);
@@ -132,9 +134,18 @@ export default function Payment() {
         ? 'Order created successfully! You will pay on delivery.'
         : 'Order created successfully! Payment processed.';
       
-      alert(message);
+      setSuccess(message);
+      
+      // Clear cart
       clearCart();
-      navigate("/success");
+      
+      // Reset form fields
+      setFormData(initialFormData);
+      
+      // Redirect to home page after 2 seconds
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
       
     } catch (err) {
       console.error("=== ERREUR DE PAIEMENT ===");
@@ -258,6 +269,12 @@ export default function Payment() {
           {error && (
             <div className="payment-error" style={{whiteSpace: 'pre-line'}}>
               {error}
+            </div>
+          )}
+
+          {success && (
+            <div className="payment-success">
+              ✓ {success}
             </div>
           )}
 

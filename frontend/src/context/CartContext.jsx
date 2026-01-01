@@ -22,10 +22,14 @@ export const CartProvider = ({ children }) => {
     setCartItems(prev => prev.map(p => p.id === id ? { ...p, quantity: qty } : p));
   };
 
+  const clearCart = () => {
+    setCartItems([]);
+  };
+
   const getTotalPrice = () => cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, getTotalPrice }}>
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart, getTotalPrice }}>
       {children}
     </CartContext.Provider>
   );
